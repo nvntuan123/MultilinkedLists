@@ -6,7 +6,6 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <algorithm>
-#include <Windows.h>
 
 using namespace std;
 
@@ -118,7 +117,7 @@ void createList()
 
     if (!csvFile.is_open())
     {
-        cout << "Path Wrong!!!!" << endl;
+        cout << "Path Wrong!!!!" << "\n";
         return;
     }
 
@@ -471,18 +470,55 @@ void listbyAreaDes(Node *pHead) // 7
     }
 }
 
-Node* searchbyName(Node *pHead)
+void deleteExtraSpace(string& str)
 {
-    Node* pNodeName = NULL;
+    for (size_t i = 0; i < str.length(); i++)
+    {
+        if (str[i] == ' ')
+        {
+            str.erase(i, 1);
+            i--;
+        } 
+    }
+}
+
+Node* searchbyName(Node *pHead) // 8
+{
+    Node* pNodeName = new Node();
     if (pHead)
     {
-        
+        string strSearchInput;
+        string strSearch;
+
+        cout << "\nNhap ten quoc gia: ";
+        cin.ignore(255, '\n');
+        getline(cin, strSearchInput);
+        transform(strSearchInput.begin(), strSearchInput.end(), strSearchInput.begin(), towlower);
+        deleteExtraSpace(strSearchInput);
+
+        Node* pTemp = pHead->nextName;
+        while (pTemp)
+        {
+            strSearch = pTemp->info.strName;
+            transform(strSearch.begin(), strSearch.end(), strSearch.begin(), towlower);
+            deleteExtraSpace(strSearch);
+            if (!(strSearchInput.find(strSearch)))
+            {
+                pNodeName->info.strName = pTemp->info.strName;
+                pNodeName->info.nPopulation = pTemp->info.nPopulation;
+                pNodeName->info.nLandArea = pTemp->info.nLandArea;
+                pNodeName->nextName = NULL;
+                pNodeName->nextPopulation = NULL;
+                pNodeName->nextLandArea = NULL;
+            }
+            pTemp = pTemp->nextName;
+        }
     }
 
     return pNodeName;
 }
 
-void searchbyPopulation(Node *pHead)
+void searchbyPopulation(Node *pHead) // 9
 {
     if (pHead)
     {
@@ -498,16 +534,16 @@ void searchbyPopulation(Node *pHead)
         {
             if (i->nextPopulation->info.nPopulation >= iStart && i->nextPopulation->info.nPopulation <= iEnd)
             {
-                cout << "\n" << setw(12) << right << i->nextLandArea->info.nPopulation;
-                cout << "  " << setw(25) << left << i->nextLandArea->info.strName;
-                cout << setw(12) << right << i->nextLandArea->info.nLandArea;
+                cout << "\n" << setw(12) << right << i->nextPopulation->info.nPopulation;
+                cout << "  " << setw(25) << left << i->nextPopulation->info.strName;
+                cout << setw(12) << right << i->nextPopulation->info.nLandArea;
             }
             i = i->nextPopulation;
         }
     }
 }
 
-void searchbyArea(Node *pHead)
+void searchbyArea(Node *pHead) // 10
 {
     if (pHead)
     {
@@ -579,20 +615,20 @@ int main()
     do
     {
         ///////////////////////////////////////
-        cout << "   CHON CHUC NANG" << endl;
-        cout << "0. Thoat chuong trinh" << endl;
-        cout << "1. So luong quoc gia" << endl;
-        cout << "2. Danh sach xep theo ten (A->Z)" << endl;
-        cout << "3. Danh sach xep theo ten (Z->A)" << endl;
-        cout << "4. Danh sach xep theo dan so (it->nhieu)" << endl;
-        cout << "5. Danh sach xep theo dan so (nhieu->it)" << endl;
-        cout << "6. Danh sach xep theo dien tich (nho->lon)" << endl;
-        cout << "7. Danh sach xep theo dien tich (lon->nho)" << endl;
-        cout << "8. Tim kiem theo ten" << endl;
-        cout << "9. Tim kiem theo dan so" << endl;
-        cout << "10.Tim kiem theo dien tich" << endl;
-        cout << "11.Them quoc gia" << endl;
-        cout << "12.Xoa quoc gia" << endl;
+        cout << "   CHON CHUC NANG" << "\n";
+        cout << "0. Thoat chuong trinh" << "\n";
+        cout << "1. So luong quoc gia" << "\n";
+        cout << "2. Danh sach xep theo ten (A->Z)" << "\n";
+        cout << "3. Danh sach xep theo ten (Z->A)" << "\n";
+        cout << "4. Danh sach xep theo dan so (it->nhieu)" << "\n";
+        cout << "5. Danh sach xep theo dan so (nhieu->it)" << "\n";
+        cout << "6. Danh sach xep theo dien tich (nho->lon)" << "\n";
+        cout << "7. Danh sach xep theo dien tich (lon->nho)" << "\n";
+        cout << "8. Tim kiem theo ten" << "\n";
+        cout << "9. Tim kiem theo dan so" << "\n";
+        cout << "10.Tim kiem theo dien tich" << "\n";
+        cout << "11.Them quoc gia" << "\n";
+        cout << "12.Xoa quoc gia" << "\n";
 
         cout << "Nhap lua chon: ";
         cin >> nChoice;
@@ -601,7 +637,7 @@ int main()
         switch(nChoice)
         {
         case 1:
-            cout << "So luong quoc gia: " << countriesNum(pHead) << endl;
+            cout << "So luong quoc gia: " << countriesNum(pHead) << "\n";
             break;
         case 2:
             listbyNameAsc(pHead);
@@ -625,14 +661,14 @@ int main()
             pTemp = searchbyName(pHead);
             if(pTemp!=NULL)
             {
-                cout << "Thong tin quoc gia: " << endl;
+                cout << "Thong tin quoc gia: " << "\n";
                 cout << setw(25) << left << pTemp->info.strName;
                 cout << setw(12) << right << pTemp->info.nPopulation;
                 cout << setw(12) << right << pTemp->info.nLandArea;
-                cout << endl;
+                cout << "\n";
             }
             else
-                cout << "Khong ton tai quoc gia nay trong danh sach" << endl;
+                cout << "Khong ton tai quoc gia nay trong danh sach" << "\n";
             break;
         case 9:
             searchbyPopulation(pHead);
@@ -647,6 +683,7 @@ int main()
             deleteCountry(pHead);
             break;
         }
+        cout << "\n";
     } while(nChoice != 0);
 
     return 0;
