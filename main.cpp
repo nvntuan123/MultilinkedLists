@@ -156,7 +156,7 @@ void createList()
     }
 }
 
-int countriesNum(Node *pHead)
+int countriesNum(Node *pHead) // 1
 {
     if (!pHead)
     {
@@ -177,16 +177,24 @@ int countriesNum(Node *pHead)
     return iCount;
 }
 
-void listbyNameAsc(Node *pHead)
+void listbyNameAsc(Node *pHead) // 2
 {
     if (!pHead)
     {
         return;
     }
-    int iCount = 0;
+
     if (pHead->nextName)
     {
-        Node* i = pHead;
+        Node* pTemp = pHead;
+        Node* pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
         Node* j = NULL;
         while (i->nextName->nextName)
         {
@@ -197,7 +205,7 @@ void listbyNameAsc(Node *pHead)
             {
                 str2 = j->nextName->info.strName;
                 str1.compare(str2);
-                if (str1.compare(str2) <= 1)
+                if (str1.compare(str2) >= 1)
                 {
                     swap(i->nextName->info, j->nextName->info);
                 }
@@ -208,7 +216,7 @@ void listbyNameAsc(Node *pHead)
             i = i->nextName;
         }
 
-        i = pHead;
+        i = pTempHead;
         while (i->nextName)
         {
             cout << "\n" << setw(25)<< left << i->nextName->info.strName;
@@ -220,16 +228,24 @@ void listbyNameAsc(Node *pHead)
     }
 }
 
-void listbyNameDes(Node *pHead)
+void listbyNameDes(Node *pHead) // 3
 {
     if (!pHead)
     {
         return;
     }
-    int iCount = 0;
+
     if (pHead->nextName)
     {
-        Node* i = pHead;
+        Node *pTemp = pHead;
+        Node *pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
         Node* j = NULL;
         while (i->nextName->nextName)
         {
@@ -240,7 +256,7 @@ void listbyNameDes(Node *pHead)
             {
                 str2 = j->nextName->info.strName;
                 str1.compare(str2);
-                if (str1.compare(str2) <= 1)
+                if (str1.compare(str2) <= -1)
                 {
                     swap(i->nextName->info, j->nextName->info);
                 }
@@ -251,7 +267,7 @@ void listbyNameDes(Node *pHead)
             i = i->nextName;
         }
 
-        i = pHead;
+        i = pTempHead;
         while (i->nextName)
         {
             cout << "\n" << setw(25)<< left << i->nextName->info.strName;
@@ -263,24 +279,196 @@ void listbyNameDes(Node *pHead)
     }
 }
 
-void listbyPopulationAsc(Node *pHead)
+void listbyPopulationAsc(Node *pHead) // 4
 {
+    if (!pHead)
+    {
+        return;
+    }
 
+    if (pHead->nextPopulation)
+    {
+        Node *pTemp = pHead;
+        Node *pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
+        Node* j = NULL;
+        while (i->nextPopulation->nextPopulation)
+        {
+            j = i->nextPopulation;
+            int iTemp_Popu_i = i->nextPopulation->info.nPopulation;
+            while (j->nextPopulation)
+            {
+                if (iTemp_Popu_i > j->nextPopulation->info.nPopulation)
+                {
+                    swap(i->nextPopulation->info, j->nextPopulation->info);
+                }
+                
+                j = j->nextPopulation;
+            }
+            
+            i = i->nextPopulation;
+        }
+
+        i = pTempHead;
+        while (i->nextPopulation)
+        {
+            cout << "\n" << setw(12) << right << i->nextPopulation->info.nPopulation;
+            cout << setw(25)<< right << i->nextPopulation->info.strName;
+            cout << setw(12) << right << i->nextPopulation->info.nLandArea;
+            i = i->nextPopulation;
+        }
+        cout << "\n\n";
+    }
 }
 
-void listbyPopulationDes(Node *pHead)
+void listbyPopulationDes(Node *pHead) // 5
 {
+    if (!pHead)
+    {
+        return;
+    }
 
+    if (pHead->nextPopulation)
+    {
+        Node *pTemp = pHead;
+        Node *pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
+        Node* j = NULL;
+        while (i->nextPopulation->nextPopulation)
+        {
+            j = i->nextPopulation;
+            int iTemp_Popu_i = i->nextPopulation->info.nPopulation;
+            while (j->nextPopulation)
+            {
+                if (iTemp_Popu_i < j->nextPopulation->info.nPopulation)
+                {
+                    swap(i->nextPopulation->info, j->nextPopulation->info);
+                }
+                
+                j = j->nextPopulation;
+            }
+            
+            i = i->nextPopulation;
+        }
+
+        i = pTempHead;
+        while (i->nextPopulation)
+        {
+            cout << "\n" << setw(12) << right << i->nextPopulation->info.nPopulation;
+            cout << "  " << setw(25)<< left << i->nextPopulation->info.strName;
+            cout << setw(12) << right << i->nextPopulation->info.nLandArea;
+            i = i->nextPopulation;
+        }
+        cout << "\n\n";
+    }
 }
 
-void listbyAreaAsc(Node *pHead)
+void listbyAreaAsc(Node *pHead) // 6
 {
+    if (!pHead)
+    {
+        return;
+    }
 
+    if (pHead->nextLandArea)
+    {
+        Node *pTemp = pHead;
+        Node *pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
+        Node* j = NULL;
+        while (i->nextLandArea->nextLandArea)
+        {
+            j = i->nextLandArea;
+            int iTemp_Lan_i = i->nextLandArea->info.nLandArea;
+            while (j->nextLandArea)
+            {
+                if (iTemp_Lan_i > j->nextLandArea->info.nLandArea)
+                {
+                    swap(i->nextLandArea->info, j->nextLandArea->info);
+                }
+                
+                j = j->nextLandArea;
+            }
+            
+            i = i->nextLandArea;
+        }
+
+        i = pTempHead;
+        while (i->nextLandArea)
+        {
+            cout << "\n" << setw(12) << right << i->nextLandArea->info.nLandArea;
+            cout << setw(25)<< right << i->nextLandArea->info.strName;
+            cout << setw(12) << right << i->nextLandArea->info.nPopulation;
+            i = i->nextLandArea;
+        }
+        cout << "\n\n";
+    }
 }
 
-void listbyAreaDes(Node *pHead)
+void listbyAreaDes(Node *pHead) // 7
 {
+    if (!pHead)
+    {
+        return;
+    }
 
+    if (pHead->nextLandArea)
+    {
+        Node *pTemp = pHead;
+        Node *pTempHead = new Node();
+        while (pTemp->nextName)
+        {
+            Insert(pTempHead, pTemp->nextName->info.strName, pTemp->nextName->info.nPopulation, pTemp->nextName->info.nLandArea);
+            pTemp = pTemp->nextName;
+        }
+
+        Node* i = pTempHead;
+        Node* j = NULL;
+        while (i->nextLandArea->nextLandArea)
+        {
+            j = i->nextLandArea;
+            int iTemp_Lan_i = i->nextLandArea->info.nLandArea;
+            while (j->nextLandArea)
+            {
+                if (iTemp_Lan_i < j->nextLandArea->info.nLandArea)
+                {
+                    swap(i->nextLandArea->info, j->nextLandArea->info);
+                }
+                
+                j = j->nextLandArea;
+            }
+            
+            i = i->nextLandArea;
+        }
+
+        i = pTempHead;
+        while (i->nextLandArea)
+        {
+            cout << "\n" << setw(12) << right << i->nextLandArea->info.nLandArea;
+            cout << "  " << setw(25)<< left << i->nextLandArea->info.strName;
+            cout << setw(12) << right << i->nextLandArea->info.nPopulation;
+            i = i->nextLandArea;
+        }
+        cout << "\n\n";
+    }
 }
 
 Node* searchbyName(Node *pHead)
