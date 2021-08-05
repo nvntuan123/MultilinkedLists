@@ -27,14 +27,9 @@ struct Node
 
 Node    *pHead;
 
-int iCount = 0;
-int iCountName = 0;
-int iCountPopu = 0;
-int iCountLand = 0;
-
 void Insert(Node *&pHead, string strName, int nPopulation, int nLandArea)
 {
-    std::cout << "\nLan: " << ++iCount;
+    //std::cout << "\nLan: " << ++iCount;
     Node    *pNew = new Node();
 
     pNew->info.strName = strName;
@@ -80,9 +75,6 @@ void Insert(Node *&pHead, string strName, int nPopulation, int nLandArea)
     pTemp = pHead->nextPopulation;
     while(pTemp != NULL && nPopulation > pTemp->info.nPopulation)
     {
-        //++iCountPopu;
-        //Sleep(300);
-        //std::cout << "\nSo lan DS: " << iCountPopu << "\tDS: " << pTemp->info.nPopulation;
         pTemp0 = pTemp;
         pTemp = pTemp->nextPopulation;
     }
@@ -90,12 +82,6 @@ void Insert(Node *&pHead, string strName, int nPopulation, int nLandArea)
     {
         pNew->nextPopulation = pHead->nextPopulation;
         pHead->nextPopulation = pNew;
-        // std::cout << "\npNew: " << pNew;
-        // std::cout << "\npHead.nP: " << pHead->nextPopulation;
-        // std::cout << "\n\npNew.nP: " << pNew->nextPopulation;
-        // std::cout << "\npHead.nL: " << pHead->nextLandArea;
-        // std::cout << "\npHead.nN: " << pHead->nextName;
-        // std::cout << "\n";
     }
     else
     {
@@ -109,9 +95,6 @@ void Insert(Node *&pHead, string strName, int nPopulation, int nLandArea)
     pTemp = pHead->nextLandArea;
     while(pTemp != NULL && nLandArea > pTemp->info.nLandArea)
     {
-        //++iCountLand;
-        //Sleep(300);
-        //std::cout << "\nSo lan DT: " << iCountLand << "\tDT: " << pTemp->info.nLandArea;
         pTemp0 = pTemp;
         pTemp = pTemp->nextLandArea;
     }
@@ -125,29 +108,6 @@ void Insert(Node *&pHead, string strName, int nPopulation, int nLandArea)
         pNew->nextLandArea = pTemp;
         pTemp0->nextLandArea = pNew;
     }
-
-    // std::cout << "\npNew.nL: " << pNew->nextLandArea;
-    // std::cout << "\npHead.nL: " << pHead->nextLandArea;
-    // std::cout << "\npHead.nN: " << pHead->nextName;
-    // std::cout << "\n\npNew: " << pNew;
-    // std::cout << "\npHead.nP: " << pHead->nextPopulation;
-    // std::cout << "\npHead.nL: " << pHead->nextLandArea;
-    // std::cout << "\npHead.nN.nN: " << pHead->nextName->nextName;
-    // std::cout << "\npNew.nP.nN: " << pNew->nextPopulation->nextName;
-    // std::cout << "\npNew.nL.nN: " << pNew->nextLandArea->nextName;
-    // if (!pHead->nextName->nextPopulation)
-    // {
-    //     std::cout << "\n\npHead.nP is Null.";
-    // }
-    // if (!pHead->nextName->nextLandArea)
-    // {
-    //     std::cout << "\npHead.nL is Null.";
-    // }
-    // if (!pNew->nextName)
-    // {
-    //     std::cout << "\npNew.nN is Null.";
-    // }
-    std::cout << "\n\n\n";
 }
 
 void createList()
@@ -196,7 +156,6 @@ void createList()
     }
 }
 
-// 1 Dem va hien thi so luong quoc gia hien co trong danh sach
 int countriesNum(Node *pHead)
 {
     if (!pHead)
@@ -207,26 +166,101 @@ int countriesNum(Node *pHead)
     int iCount = 0;
     if (pHead->nextName)
     {
-        ++iCount;
         Node* pTemp = pHead->nextName;
-        while (pTemp = pTemp->nextName)
+        while (pTemp)
         {
             ++iCount;
+            pTemp = pTemp->nextName;
         }
     }
     
     return iCount;
 }
 
-// 2. Danh sach cac quoc gia sap xep theo thu tu ten quoc gia tu A -> Z. Voi moi quoc hien thi lan luot thong tin: ten, dan so, dien tich. Ten duoc canh le trai, dan so va dien tich duoc canh le phai.
 void listbyNameAsc(Node *pHead)
 {
+    if (!pHead)
+    {
+        return;
+    }
+    int iCount = 0;
+    if (pHead->nextName)
+    {
+        Node* i = pHead;
+        Node* j = NULL;
+        while (i->nextName->nextName)
+        {
+            j = i->nextName;
+            string str1 = i->nextName->info.strName;
+            string str2 = "";
+            while (j->nextName)
+            {
+                str2 = j->nextName->info.strName;
+                str1.compare(str2);
+                if (str1.compare(str2) <= 1)
+                {
+                    swap(i->nextName->info, j->nextName->info);
+                }
+                
+                j = j->nextName;
+            }
+            
+            i = i->nextName;
+        }
 
+        i = pHead;
+        while (i->nextName)
+        {
+            cout << "\n" << setw(25)<< left << i->nextName->info.strName;
+            cout << setw(12) << right << i->nextName->info.nPopulation;
+            cout << setw(12) << right << i->nextName->info.nLandArea;
+            i = i->nextName;
+        }
+        cout << "\n\n";
+    }
 }
 
 void listbyNameDes(Node *pHead)
 {
+    if (!pHead)
+    {
+        return;
+    }
+    int iCount = 0;
+    if (pHead->nextName)
+    {
+        Node* i = pHead;
+        Node* j = NULL;
+        while (i->nextName->nextName)
+        {
+            j = i->nextName;
+            string str1 = i->nextName->info.strName;
+            string str2 = "";
+            while (j->nextName)
+            {
+                str2 = j->nextName->info.strName;
+                str1.compare(str2);
+                if (str1.compare(str2) <= 1)
+                {
+                    swap(i->nextName->info, j->nextName->info);
+                }
+                
+                j = j->nextName;
+            }
+            
+            i = i->nextName;
+        }
 
+        i = pHead;
+        while (i->nextName)
+        {
+            cout << "\n" << setw(25)<< left << i->nextName->info.strName;
+            cout << setw(12) << right << i->nextName->info.nPopulation;
+            cout << setw(12) << right << i->nextName->info.nLandArea;
+            i = i->nextName;
+        }
+        cout << "\n\n";
+    }
 }
 
 void listbyPopulationAsc(Node *pHead)
@@ -270,17 +304,17 @@ void insertCountry(Node *&pHead)
     string strName;
     int nPopulation;
     int nLandArea;
-    std::cout << "Nhap ten quoc gia: ";
-    std::cin.ignore(256, '\n');
-    std::getline(cin, strName);
-    std::cout << "Nhap dan so: ";
-    std::cin >> nPopulation;
-    std::cout << "Nhap dien tich dat: ";
-    std::cin >> nLandArea;
+    cout << "Nhap ten quoc gia: ";
+    cin.ignore(256, '\n');
+    getline(cin, strName);
+    cout << "Nhap dan so: ";
+    cin >> nPopulation;
+    cout << "Nhap dien tich dat: ";
+    cin >> nLandArea;
 
-    std::cout << "\n\nTen: " << strName << "\n";
-    std::cout << "DS: " << nPopulation << "\n";
-    std::cout << "DT: " << nLandArea << "\n";
+    cout << "\n\nTen: " << strName << "\n";
+    cout << "DS: " << nPopulation << "\n";
+    cout << "DT: " << nLandArea << "\n";
 
     // ofstream csvFileOut;
     // string strPathCSVFile = "CountriesList1.csv";
