@@ -473,18 +473,63 @@ void listbyAreaDes(Node *pHead) // 7
 
 Node* searchbyName(Node *pHead)
 {
+    Node* pNodeName = NULL;
+    if (pHead)
+    {
+        
+    }
 
-    return NULL;
+    return pNodeName;
 }
 
 void searchbyPopulation(Node *pHead)
 {
+    if (pHead)
+    {
+        int iStart = 0;
+        int iEnd = 0;
+        cout << "\nNhap gia tri can duoi: ";
+        cin >> iStart;
+        cout << "Nhap gia tri can tren: ";
+        cin >> iEnd;
 
+        Node* i = pHead;
+        while (i->nextPopulation)
+        {
+            if (i->nextPopulation->info.nPopulation >= iStart && i->nextPopulation->info.nPopulation <= iEnd)
+            {
+                cout << "\n" << setw(12) << right << i->nextLandArea->info.nPopulation;
+                cout << "  " << setw(25) << left << i->nextLandArea->info.strName;
+                cout << setw(12) << right << i->nextLandArea->info.nLandArea;
+            }
+            i = i->nextPopulation;
+        }
+    }
 }
 
 void searchbyArea(Node *pHead)
 {
+    if (pHead)
+    {
+        int iStart = 0;
+        int iEnd = 0;
+        cout << "\nNhap gia tri can duoi: ";
+        cin >> iStart;
+        cout << "Nhap gia tri can tren: ";
+        cin >> iEnd;
 
+        Node* i = pHead;
+        while (i->nextLandArea)
+        {
+            if (i->nextLandArea->info.nLandArea >= iStart && i->nextLandArea->info.nLandArea <= iEnd)
+            {
+                cout << "\n" << setw(12) << right << i->nextLandArea->info.nLandArea;
+                cout << "  " << setw(25) << left << i->nextLandArea->info.strName;
+                cout << setw(12) << right << i->nextLandArea->info.nPopulation;
+            }
+            i = i->nextLandArea;
+        }
+    }
 }
 
 void insertCountry(Node *&pHead)
